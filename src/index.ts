@@ -33,10 +33,6 @@ export const run = async () => {
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        core.info(`response - ${response.data.results}`);
-
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         const pageId = response.data.results[0].id;
         writeCommitHistory(client, pageId, message, commit.url);
       });
