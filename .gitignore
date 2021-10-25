@@ -333,9 +333,6 @@ $RECYCLE.BIN/
 # and uncomment the following lines
 # .pnp.*
 
-# typescript
-build
-
 .idea
 
 # End of https://www.toptal.com/developers/gitignore/api/node,yarn,webstorm,visualstudiocode,windows,osx,linux

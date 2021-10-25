@@ -1,0 +1,21 @@
+name: "commit to notion"
+author: JoungSik
+description: "Write your commit history to notion database."
+inputs:
+  GITHUB_TOKEN:
+    description: "GitHub token"
+    required: true
+  NOTION_API_KEY:
+    description: "Notion API Key"
+    required: true
+  NOTION_DATABASE:
+    description: "Notion Database ID"
+    required: true
+
+runs:
+  using: node12
+  main: build/src/index.js
+
+branding:
+  icon: "git-commit"
+  color: "gray-dark"
