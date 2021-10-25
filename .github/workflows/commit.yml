@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Commit to Notion
         uses: ./
-        env:
+        with:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_DATABASE: ${{ secrets.NOTION_DATABASE }}
