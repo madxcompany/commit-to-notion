@@ -27,9 +27,7 @@ export const run = async () => {
       const code = commit.message.match(/#\w*/);
       if (!code || !code[0]) return;
 
-      core.info(`code - ${code[0]}`);
-
-      const issues = findIssue(client, code[0]);
+      const issues = findIssue(client, code[0].replace('#', ''));
       issues.then(response => {
         if (!response.data) return;
 
