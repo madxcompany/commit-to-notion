@@ -10,6 +10,6 @@ jobs:
       - name: Commit to Notion
         uses: ./
         env:
-          TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_DATABASE: ${{ secrets.NOTION_DATABASE }}

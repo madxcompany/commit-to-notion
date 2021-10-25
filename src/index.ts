@@ -4,7 +4,7 @@ import {PushEvent} from '@octokit/webhooks-definitions/schema';
 import {instance} from './client';
 import {AxiosInstance} from 'axios';
 
-const token = core.getInput('TOKEN');
+const token = core.getInput('GITHUB_TOKEN');
 const notionApiKey = core.getInput('NOTION_API_KEY');
 const notionDatabase = core.getInput('NOTION_DATABASE');
 

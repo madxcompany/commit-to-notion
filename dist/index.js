@@ -55,7 +55,7 @@ exports.run = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const client_1 = __nccwpck_require__(8223);
-const token = core.getInput('TOKEN');
+const token = core.getInput('GITHUB_TOKEN');
 const notionApiKey = core.getInput('NOTION_API_KEY');
 const notionDatabase = core.getInput('NOTION_DATABASE');
 const run = async () => {

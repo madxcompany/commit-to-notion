@@ -2,7 +2,7 @@ name: "commit to notion"
 author: JoungSik
 description: "Write your commit history to notion database."
 inputs:
-  TOKEN:
+  GITHUB_TOKEN:
     description: "GitHub token"
     required: true
   NOTION_API_KEY:
