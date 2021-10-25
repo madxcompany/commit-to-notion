@@ -70,15 +70,19 @@ const run = async () => {
         const pushPayload = github.context.payload;
         pushPayload.commits.forEach(commit => {
             const ref = pushPayload.ref.split('/');
-            const header = `[${pushPayload.organization}/${pushPayload.repository}:${ref[ref.length - 1]}]`;
+            const header = `[${pushPayload.repository.full_name}:${ref[ref.length - 1]}]`;
             const message = `${header} ${commit.message} - ${commit.author.name}`;
             const code = commit.message.match(/#\w*/);
             if (!code || !code[0])
                 return;
+            core.info(`code - ${code[0]}`);
             const issues = findIssue(client, code[0]);
             issues.then(response => {
                 if (!response.data)
                     return;
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                core.info(`response - ${response.data.results}`);
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 const pageId = response.data.results[0].id;

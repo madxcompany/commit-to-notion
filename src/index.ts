@@ -19,7 +19,7 @@ export const run = async () => {
     const pushPayload = github.context.payload as PushEvent;
     pushPayload.commits.forEach(commit => {
       const ref = pushPayload.ref.split('/');
-      const header = `[${pushPayload.organization}/${pushPayload.repository}:${
+      const header = `[${pushPayload.repository.full_name}:${
         ref[ref.length - 1]
       }]`;
       const message = `${header} ${commit.message} - ${commit.author.name}`;
@@ -27,9 +27,15 @@ export const run = async () => {
       const code = commit.message.match(/#\w*/);
       if (!code || !code[0]) return;
 
+      core.info(`code - ${code[0]}`);
+
       const issues = findIssue(client, code[0]);
       issues.then(response => {
         if (!response.data) return;
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        core.info(`response - ${response.data.results}`);
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
