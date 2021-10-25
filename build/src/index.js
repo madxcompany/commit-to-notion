@@ -4,7 +4,7 @@ exports.run = void 0;
 const core = require("@actions/core");
 const github = require("@actions/github");
 const client_1 = require("./client");
-const token = core.getInput('token');
+const token = core.getInput('TOKEN');
 const notionApiKey = core.getInput('NOTION_API_KEY');
 const notionDatabase = core.getInput('NOTION_DATABASE');
 const run = async () => {
