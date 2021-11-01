@@ -16,12 +16,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Commit to Notion
-        uses: madxcompany/commit-to-notion@v0.1.0
+        uses: madxcompany/commit-to-notion@v0.1.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_DATABASE: ${{ secrets.NOTION_DATABASE }}
 ```
+
+## Check
+1. Setting database issue code
+   1. Formula -> slice(id(), round(toNumber(replaceAll(id(), "[^0-9]", "")) % 4), 6)
+2. Commit History Area
+   1. Commit history area is first toggle area in database pages
+3. Write commit message format 
+   1. "#{issue_code} first commit" -> "#2af008 first commit"
+
 
 ## Inputs
 * GITHUB_TOKEN (required)
