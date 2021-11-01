@@ -3,6 +3,8 @@ import * as github from '@actions/github';
 import {PushEvent} from '@octokit/webhooks-definitions/schema';
 import {instance} from './client';
 import {AxiosInstance} from 'axios';
+import {Block} from './types/block';
+import {Response} from './types/response';
 
 const token = core.getInput('GITHUB_TOKEN');
 const notionApiKey = core.getInput('NOTION_API_KEY');
@@ -31,10 +33,16 @@ export const run = async () => {
       issues.then(response => {
         if (!response.data) return;
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         const pageId = response.data.results[0].id;
-        writeCommitHistory(client, pageId, message, commit.url);
+        const blocks = findIssueHistory(client, pageId);
+        blocks.then(response => {
+          if (!response.data) return;
+          const results = response.data.results as Block[];
+          const result = results.filter(result => result.type === 'toggle');
+          if (!result) return;
+
+          writeCommitHistory(client, result[0].id, message, commit.url);
+        });
       });
 
       core.info(`commit is: ${code[0]} - ${message}`);
@@ -43,7 +51,7 @@ export const run = async () => {
 };
 
 const findIssue = async (client: AxiosInstance, code: string) =>
-  await client.post(`/v1/databases/${notionDatabase}/query`, {
+  await client.post<Response>(`/v1/databases/${notionDatabase}/query`, {
     filter: {
       property: 'ISSUE_CODE',
       formula: {
@@ -54,13 +62,16 @@ const findIssue = async (client: AxiosInstance, code: string) =>
     },
   });
 
+const findIssueHistory = async (client: AxiosInstance, pageId: string) =>
+  await client.get<Response>(`/v1/blocks/${pageId}/children`);
+
 const writeCommitHistory = async (
   client: AxiosInstance,
   pageId: string,
   message: string,
   link: string
 ) =>
-  await client.patch(`/v1/blocks/${pageId}/children`, {
+  await client.patch<Response>(`/v1/blocks/${pageId}/children`, {
     children: [
       {
         object: 'block',

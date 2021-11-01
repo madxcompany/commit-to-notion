@@ -1,6 +1,6 @@
 {
   "name": "commit-to-notion",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "commit-to-notion",
   "main": "dist/index.js",
   "scripts": {
