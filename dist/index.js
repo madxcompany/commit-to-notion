@@ -79,13 +79,17 @@ const run = async () => {
             issues.then(response => {
                 if (!response.data)
                     return;
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                core.info(`response - ${response.data.results}`);
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 const pageId = response.data.results[0].id;
-                writeCommitHistory(client, pageId, message, commit.url);
+                const blocks = findIssueHistory(client, pageId);
+                blocks.then(response => {
+                    if (!response.data)
+                        return;
+                    const results = response.data.results;
+                    const result = results.filter(result => result.type === 'toggle');
+                    if (!result)
+                        return;
+                    writeCommitHistory(client, result[0].id, message, commit.url);
+                });
             });
             core.info(`commit is: ${code[0]} - ${message}`);
         });
@@ -102,6 +106,7 @@ const findIssue = async (client, code) => await client.post(`/v1/databases/${not
         },
     },
 });
+const findIssueHistory = async (client, pageId) => await client.get(`/v1/blocks/${pageId}/children`);
 const writeCommitHistory = async (client, pageId, message, link) => await client.patch(`/v1/blocks/${pageId}/children`, {
     children: [
         {
